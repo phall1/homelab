@@ -1,0 +1,51 @@
+services:
+  # Open WebUI — chat frontend for Ollama
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    volumes:
+      - open-webui-data:/app/backend/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # Uptime Kuma — service monitoring
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime-kuma-data:/app/data
+
+  # Homepage — dashboard
+  # homepage:
+  #   image: ghcr.io/gethomepage/homepage:latest
+  #   container_name: homepage
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3010:3000"
+  #   volumes:
+  #     - ./homepage:/app/config
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  # Jellyfin — media server (uncomment when ready)
+  # jellyfin:
+  #   image: jellyfin/jellyfin
+  #   container_name: jellyfin
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8096:8096"
+  #   volumes:
+  #     - jellyfin-config:/config
+  #     - /mnt/media:/media:ro
+
+volumes:
+  open-webui-data:
+  uptime-kuma-data:
+  # jellyfin-config:
