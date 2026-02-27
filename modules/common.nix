@@ -24,7 +24,7 @@
   services.openssh = {
     enable = true;
     settings = {
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;  # TODO: disable after adding SSH keys
       PermitRootLogin = "no";
     };
   };
@@ -61,6 +61,8 @@
   };
 
   networking.firewall.enable = true;
+
+  networking.networkmanager.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
 }
